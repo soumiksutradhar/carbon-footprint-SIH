@@ -1,115 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🌍 Carbon Footprint Calculator</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- AOS Animation Library -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(120deg, #43cea2, #185a9d);
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .hero {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      animation: fadeInDown 1.5s ease;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      animation: fadeInUp 2s ease;
-    }
-    .card {
-      background: white;
-      color: black;
-      border-radius: 18px;
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
-      padding: 30px;
-      animation: slideUp 1.5s ease;
-    }
-    .btn-custom {
-      background-color: #2E7D32;
-      color: white;
-      border-radius: 10px;
-      font-weight: bold;
-      transition: transform 0.2s;
-    }
-    .btn-custom:hover {
-      background-color: #1B5E20;
-      transform: scale(1.05);
-    }
-    /* Keyframes */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+	<meta charset="UTF-8">
+	<title>Carbon Footprint Calculator</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+			min-height: 100vh;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			color: rgba(255,255,255,0.95);
+			text-shadow: 0 0 5px rgba(0,0,0,0.3);
+			overflow: hidden;
+			position: relative;
+			background: linear-gradient(135deg, #0b3d91, #1c6dd0);
+		}
+
+		.hero {
+			text-align: center;
+			margin-bottom: 40px;
+			position: relative;
+			z-index: 2;
+		}
+		.hero h1 {
+			font-family: 'Poppins', sans-serif;
+			font-size: 3.5rem;
+			font-weight: 600;
+			background: linear-gradient(270deg, #00f0ff, #ff6cf2, #ffeb00, #00f0ff);
+			background-size: 600% 600%;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			text-shadow:
+				0 0 5px #00f0ff,
+				0 0 10px #00f0ff,
+				0 0 20px #ff6cf2,
+				0 0 30px #ff6cf2;
+			animation: gradientShift 18s ease infinite;
+		}
+
+		/* Place keyframes immediately below */
+		@keyframes gradientShift {
+			0% { background-position: 0% 50%; }
+			50% { background-position: 100% 50%; }
+			100% { background-position: 0% 50%; }
+		}
+
+		.hero p {
+			font-family: 'Poppins', sans-serif;
+			font-size: 1.5rem;
+			font-weight: 400;
+			opacity: 0.9;
+			animation: fadeInUp 2s ease;
+		}
+
+		.card {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 400;
+			background: rgba(0, 0, 0, 0.3);
+			backdrop-filter: blur(15px);
+			-webkit-backdrop-filter: blur(15px);
+			border: 1px solid rgba(255,255,255,0.2);
+			border-radius: 20px;
+			padding: 35px;
+			color: white;
+			transition: all 0.3s ease;
+			position: relative;
+			z-index: 2;
+			box-shadow: inset 0 0 15px rgba(0,0,0,0.2), 0 8px 30px rgba(0,0,0,0.3);
+		}
+
+		body, .hero h1, .hero p, .card {
+			text-shadow: 0 0 5px rgba(0,0,0,0.3);
+		}
+
+		.card:hover {
+			box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+		}
+
+		.btn-custom {
+			background: rgba(0,120,215,0.6);
+			color: white;
+			border-radius: 10px;
+			font-weight: 600;
+			border: 1px solid rgba(255,255,255,0.3);
+			backdrop-filter: blur(5px);
+			transition: all 0.3s ease;
+		}
+		.btn-custom:hover {
+			background: rgba(0,150,255,0.7);
+			transform: scale(1.05);
+			box-shadow: 0 0 15px rgba(0,150,255,0.5);
+		}
+
+		input, select {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 400;
+			background: rgba(255,255,255,0.15);
+			border: 1px solid rgba(255,255,255,0.3);
+			border-radius: 10px;
+			color: white;
+			backdrop-filter: blur(5px);
+		}
+		input::placeholder {
+			color: rgba(255,255,255,0.6);
+		}
+
+		@keyframes fadeInDown {
+			from { opacity: 0; transform: translateY(-30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		@keyframes fadeInUp {
+			from { opacity: 0; transform: translateY(30px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		#ember-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 0;
+			overflow: hidden;
+		}
+		.ember {
+			position: absolute;
+			border-radius: 50%;
+			pointer-events: none;
+			width: 4px;
+			height: 4px;
+			opacity: 0.8;
+		}
+	</style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <div class="container text-center hero" data-aos="fade-down">
-    <h1>🌍 Carbon Footprint Calculator</h1>
-    <p>Calculate • Compare • Improve 🌱</p>
-  </div>
+	<div id="ember-container"></div>
 
-  <!-- Input Card -->
-  <div class="container d-flex justify-content-center">
-    <div class="col-md-6" data-aos="zoom-in">
-      <div class="card">
-        <h3 class="text-center mb-4">Enter Your Daily Habits</h3>
-        <form method="POST">
-          <div class="mb-3">
-            <label class="form-label">🚗 Car Travel (km)</label>
-            <input type="number" step="0.1" name="car_km" class="form-control" placeholder="e.g. 5">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">🚌 Bus Travel (km)</label>
-            <input type="number" step="0.1" name="bus_km" class="form-control" placeholder="e.g. 10">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">💡 Electricity (kWh)</label>
-            <input type="number" step="0.1" name="electricity" class="form-control" placeholder="e.g. 2.5">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">🍽️ Diet</label>
-            <select name="diet" class="form-select">
-              <option value="vegetarian">🥦 Vegetarian</option>
-              <option value="mixed">🥗 Mixed</option>
-              <option value="heavy_meat">🍖 Heavy Meat</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-custom w-100">Calculate My Footprint 🌱</button>
-        </form>
-      </div>
-    </div>
-  </div>
+	<div class="container text-center hero" data-aos="fade-down">
+		<h1>Carbon Footprint Calculator</h1>
+		<p>Calculate • Compare • Improve</p>
+	</div>
 
-  <!-- AOS JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({ duration: 1200 });
-  </script>
+	<div class="container d-flex justify-content-center">
+		<div class="col-md-6" data-aos="zoom-in">
+			<div class="card">
+				<h3 class="text-center mb-4">Enter Your Daily Habits</h3>
+				<form method="POST">
+					<div class="mb-3">
+						<label class="form-label">Car Travel (km)</label>
+						<input type="number" step="0.1" name="car_km" class="form-control" placeholder="e.g. 5">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Bus Travel (km)</label>
+						<input type="number" step="0.1" name="bus_km" class="form-control" placeholder="e.g. 10">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Electricity (kWh)</label>
+						<input type="number" step="0.1" name="electricity" class="form-control" placeholder="e.g. 2.5">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Diet</label>
+						<select name="diet" class="form-select">
+							<option value="vegetarian">🥦 Vegetarian</option>
+							<option value="mixed">🥗 Mixed</option>
+							<option value="heavy_meat">🍖 Heavy Meat</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-custom w-100">Calculate My Footprint</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+	<script>
+		AOS.init({ duration: 1200 });
+
+		// Smooth dynamic gradient
+		const gradientStops = [
+			[{r:11,g:61,b:145}, {r:28,g:109,b:208}],  // deep blue → lighter blue
+			[{r:90,g:50,b:160}, {r:130,g:60,b:200}],  // violet/purple
+			[{r:30,g:70,b:180}, {r:100,g:80,b:220}],  // blue → purple
+			[{r:11,g:61,b:145}, {r:28,g:109,b:208}]   // loop back
+		];
+		let t = 0, step = 0;
+		function lerpColor(c1, c2, t){
+			return { r: Math.round(c1.r + (c2.r-c1.r)*t),
+					 g: Math.round(c1.g + (c2.g-c1.g)*t),
+					 b: Math.round(c1.b + (c2.b-c1.b)*t) };
+		}
+		function updateGradient(){
+			let cStart = lerpColor(gradientStops[step][0], gradientStops[(step+1)%gradientStops.length][0], t);
+			let cEnd = lerpColor(gradientStops[step][1], gradientStops[(step+1)%gradientStops.length][1], t);
+			document.body.style.background = `linear-gradient(135deg, rgb(${cStart.r},${cStart.g},${cStart.b}), rgb(${cEnd.r},${cEnd.g},${cEnd.b}))`;
+			t += 0.001;
+			if(t>=1){ t=0; step = (step+1)%gradientStops.length; }
+			requestAnimationFrame(updateGradient);
+		}
+		requestAnimationFrame(updateGradient);
+
+		// Ember particles with wind/turbulence
+		const emberContainer = document.getElementById('ember-container');
+		const embers = [];
+		const smokeParticles = [];
+		const numEmbers = 50;
+		const numSmoke = 150; // more smoke particles
+		const windX = 0.3;
+
+		// Create embers
+		for (let i = 0; i < numEmbers; i++) {
+			const ember = document.createElement('div');
+			ember.classList.add('ember');
+			emberContainer.appendChild(ember);
+
+			const size = Math.random() * 4 + 2;
+			ember.style.width = size + 'px';
+			ember.style.height = size + 'px';
+
+			embers.push({
+				el: ember,
+				x: Math.random() * window.innerWidth,
+				y: window.innerHeight + Math.random() * 200,
+				vx: (Math.random() - 0.5) * 0.5 + windX,
+				vy: -(Math.random() * 1 + 0.5)
+			});
+
+			const r = Math.floor(200 + Math.random() * 55);
+			const g = Math.floor(150 + Math.random() * 55);
+			const b = Math.floor(50 + Math.random() * 50);
+			ember.style.background = `rgba(${r},${g},${b},0.8)`;
+			ember.style.boxShadow = `0 0 10px rgba(${r},${g},${b},0.8)`;
+		}
+
+		// Create smoke
+		for (let i = 0; i < numSmoke; i++) {
+			const smoke = document.createElement('div');
+			smoke.classList.add('ember');
+			emberContainer.appendChild(smoke);
+
+			const size = Math.random() * 2 + 1; // smaller than embers
+			smoke.style.width = size + 'px';
+			smoke.style.height = size + 'px';
+			const alpha = 0.05 + Math.random() * 0.05;  // fixed opacity per particle
+			smoke.style.background = `rgba(200,200,200,${alpha})`;
+			smoke.style.boxShadow = `0 0 5px rgba(200,200,200,${alpha})`;
+
+			smokeParticles.push({
+				el: smoke,
+				x: Math.random() * window.innerWidth,
+				y: window.innerHeight + Math.random() * 500,
+				vx: (Math.random() - 0.5) * 0.2 + windX/2,
+				vy: -(Math.random() * 0.3 + 0.1)
+			});
+		}
+
+		// Animate everything
+		function animateParticles() {
+			for (const e of embers) {
+				e.x += e.vx;
+				e.y += e.vy;
+
+				if (e.y < -10 || e.x < -10 || e.x > window.innerWidth + 10) {
+					e.x = Math.random() * window.innerWidth;
+					e.y = window.innerHeight + 10;
+					e.vx = (Math.random() - 0.5) * 0.5 + windX;
+					e.vy = -(Math.random() * 1 + 0.5);
+				}
+
+				e.el.style.transform = `translate(${e.x}px, ${e.y}px)`;
+			}
+
+			for (const s of smokeParticles) {
+				s.x += s.vx;
+				s.y += s.vy;
+
+				if (s.y < -10 || s.x < -10 || s.x > window.innerWidth + 10) {
+					s.x = Math.random() * window.innerWidth;
+					s.y = window.innerHeight + 10;
+					s.vx = (Math.random() - 0.5) * 0.2 + windX / 2;
+					s.vy = -(Math.random() * 0.3 + 0.1);
+				}
+
+				s.el.style.transform = `translate(${s.x}px, ${s.y}px)`;
+			}
+
+			requestAnimationFrame(animateParticles);
+		}
+
+		requestAnimationFrame(animateParticles);
+
+	</script>
 </body>
 </html>
 
