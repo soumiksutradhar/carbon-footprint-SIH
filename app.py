@@ -14,12 +14,19 @@ DIET_FACTORS = {
 
 AVERAGE_FOOTPRINT = 6.0  # average daily footprint in kg CO2 for comparison
 
+def safe_float(value, default=0.0):	# Convert form input to float, return default if empty or invalid
+    try:
+    	return float(value)
+    except(TypeError, ValueError):
+        return default
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        car_km = float(request.form.get("car_km", 0))
-        bus_km = float(request.form.get("bus_km", 0))
-        electricity = float(request.form.get("electricity", 0))
+        car_km = safe_float(request.form.get("car_km", 0))
+        bus_km = safe_float(request.form.get("bus_km", 0))
+        electricity = safe_float(request.form.get("electricity", 0))
         diet = request.form.get("diet", "mixed")
 
         transport_emissions = (car_km * CAR_FACTOR) + (bus_km * BUS_FACTOR)
